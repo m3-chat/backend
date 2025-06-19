@@ -2,6 +2,8 @@
 
 This is the backend service for **m3-chat**, a 100% open-source and free AI chat web app powered by local AI models using [Ollama](https://ollama.com).
 
+![Diagram](https://github.com/user-attachments/assets/841c7853-a643-425d-8913-1ef48d0f256f)
+
 ---
 
 ## Overview

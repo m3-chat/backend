@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { z } from "zod";
 import { spawnOllama } from "../utils/spawnOllama";
+import { models } from "../utils/models";
 
 const querySchema = z.object({
   model: z.string().min(1, "Model name is required"),
@@ -23,6 +24,13 @@ export const genRoute = new Elysia().get("/api/gen", async ({ query, set }) => {
 
   const { model, content } = parse.data;
 
+  if (!models.some((m) => m.value === model)) {
+    set.status = 400;
+    return {
+      error: "Invalid model.",
+    };
+  }
+
   try {
     const stream = await spawnOllama(model, content);
     set.headers["Content-Type"] = "text/plain; charset=utf-8";
@@ -32,7 +40,7 @@ export const genRoute = new Elysia().get("/api/gen", async ({ query, set }) => {
     console.error("[spawnOllama error]", err);
     set.status = 500;
     return {
-      error: "Failed to stream response from ollama",
+      error: "Failed to stream response from Ollama",
       details: err?.message ?? "Unknown error",
     };
   }

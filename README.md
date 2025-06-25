@@ -10,7 +10,7 @@ This is the backend service for **m3-chat**, a 100% open-source and free AI chat
 
 The backend exposes an API endpoint that proxies requests to local AI models, streams responses back to the frontend in real-time, and manages communication with the Ollama CLI.
 
-- **Tech stack:** TypeScript, ElysiaJS, Cloudflare Tunnels
+- **Tech stack:** TypeScript, Zod, ElysiaJS, Cloudflare Tunnels
 - **Streaming:** Uses child process streams for live AI responses
 - **Port:** 2000 by default
 - **CORS enabled** for frontend integration

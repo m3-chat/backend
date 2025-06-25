@@ -1,4 +1,4 @@
 # This is for unbuffered responses when running under a Cloudflare Tunnel.
-# The DOTNET server should default to streamed responses with the tunnel buffering it (removing streaming)
+# The server should default to streamed responses with the tunnel buffering it (removing streaming)
 # Unless this configuration file includes this line:
 noChunkedEncoding: false

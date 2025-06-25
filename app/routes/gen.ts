@@ -1,24 +1,39 @@
 import { Elysia } from "elysia";
-import { spawnOllama } from "../utils/spawnOllama";
 import { z } from "zod";
+import { spawnOllama } from "../utils/spawnOllama";
 
-export const genRoute = new Elysia().get("/api/gen", ({ query, set }) => {
-  const schema = z.object({
-    model: z.string(),
-    content: z.string(),
-  });
+const querySchema = z.object({
+  model: z.string().min(1, "Model name is required"),
+  content: z.string().min(1, "Content to send to the model is required"),
+});
 
-  const result = schema.safeParse(query);
-  if (!result.success) {
+export const genRoute = new Elysia().get("/api/gen", async ({ query, set }) => {
+  const parse = querySchema.safeParse(query);
+
+  if (!parse.success) {
+    const errorMessages = parse.error.issues.map(
+      (issue) => `${issue.path.join(".")}: ${issue.message}`
+    );
     set.status = 400;
-    return "Missing model or content";
+    return {
+      error: "Invalid query parameters",
+      details: errorMessages,
+    };
   }
 
-  const { model, content } = result.data;
+  const { model, content } = parse.data;
 
-  const stream = spawnOllama(model, content);
-  set.headers["Content-Type"] = "text/plain; charset=utf-8";
-  set.headers["Transfer-Encoding"] = "chunked";
-
-  return new Response(stream);
+  try {
+    const stream = await spawnOllama(model, content);
+    set.headers["Content-Type"] = "text/plain; charset=utf-8";
+    set.headers["Transfer-Encoding"] = "chunked";
+    return new Response(stream);
+  } catch (err: any) {
+    console.error("[spawnOllama error]", err);
+    set.status = 500;
+    return {
+      error: "Failed to stream response from ollama",
+      details: err?.message ?? "Unknown error",
+    };
+  }
 });

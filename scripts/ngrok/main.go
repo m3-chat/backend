@@ -35,7 +35,7 @@ func main() {
 	if port == "" {
 		port = "2000"
 	}
-	target, _ := url.Parse("http://localhost:" + port)
+	target, _ := url.Parse("http://elysia-api:" + port)
 	proxy := httputil.NewSingleHostReverseProxy(target)
 
 	originalDirector := proxy.Director

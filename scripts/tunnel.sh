@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-PORT=3000
+PORT=2000
 LOGFILE="tunnel.log"
 
 echo "Starting LocalXpose tunnel to localhost:$PORT (logging to $LOGFILE)..."

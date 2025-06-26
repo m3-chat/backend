@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "bun run --watch app/index.ts",
     "start": "bun run app/index.ts",
-    "tunnel": "lt --port 2000 --local-host localhost --print-requests --verbose --region us"
+    "tunnel": "zsh ./scripts/tunnel.sh",
+    "tunnel:dev": "lt --port 2000 --local-host localhost --print-requests --verbose --region us"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.3.3",

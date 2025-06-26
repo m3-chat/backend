@@ -1,7 +1,17 @@
-#!/bin/bash
+#!/bin/zsh
 
-# Navigate to the ngrok script directory
-cd "$(dirname "$0")/ngrok"
+PORT=2000
+LOGFILE="tunnel.log"
 
-# Run the Go program
-go run main.go
+echo "Starting LocalXpose tunnel to localhost:$PORT (logging to $LOGFILE)..."
+
+while true; do
+  loclx tunnel http --to localhost:$PORT >> "$LOGFILE" 2>&1
+  if [[ $? -ne 0 ]]; then
+    echo "Tunnel crashed. Restarting in 5 seconds..."
+    sleep 5
+  else
+    echo "Tunnel exited normally."
+    break
+  fi
+done

@@ -5,7 +5,6 @@
     "dev": "bun run --watch app/index.ts",
     "start": "bun run app/index.ts",
     "tunnel": "zsh ./scripts/tunnel.sh",
-    "tunnel:init": "zsh ./scripts/init.sh",
     "tunnel:dev": "lt --port 2000 --local-host localhost --print-requests --verbose --region us"
   },
   "dependencies": {

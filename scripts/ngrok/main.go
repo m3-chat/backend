@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 	"golang.ngrok.com/ngrok"
@@ -12,9 +13,11 @@ import (
 )
 
 func main() {
-	godotenv.Load()
-	token := os.Getenv("NGROK_AUTHTOKEN")
+	// Get the absolute path to the project root
+	rootEnvPath := filepath.Join("..", "..", ".env")
+	godotenv.Load(rootEnvPath)
 
+	token := os.Getenv("NGROK_AUTHTOKEN")
 	if token == "" {
 		log.Fatal("Missing NGROK_AUTHTOKEN")
 	}

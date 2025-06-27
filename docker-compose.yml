@@ -7,9 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "2000:2000"
+    volumes:
+      - ~/.ollama/models:/root/.ollama/models
+      - ~/.ollama/runtime:/root/.ollama/runtime
     networks:
       - m3net
-
   ngrok-tunnel:
     build:
       context: .
